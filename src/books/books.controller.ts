@@ -3,6 +3,7 @@ import {
   Post,
   Body,
   Query,
+  UseFilters,
   Controller,
   ParseIntPipe,
   UploadedFile,
@@ -15,6 +16,7 @@ import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { v4 as uuidv4 } from 'uuid';
 import { ApiImplicitFile } from '@nestjs/swagger/dist/decorators/api-implicit-file.decorator';
+import { MongoExceptionFilter } from './filters/MongoExceptionFilter';
 
 @ApiTags('books')
 @Controller('books')
@@ -24,6 +26,7 @@ export class BooksController {
   @Get()
   @ApiQuery({ name: 'limit', example: 20 })
   @ApiQuery({ name: 'start', example: 0 })
+  @UseFilters(MongoExceptionFilter)
   find(
     @Query('limit', ParseIntPipe) limit = 20,
     @Query('start', ParseIntPipe) start = 0,
@@ -32,6 +35,7 @@ export class BooksController {
   }
 
   @Post()
+  @UseFilters(MongoExceptionFilter)
   @ApiConsumes('multipart/form-data')
   @ApiImplicitFile({ name: 'book', required: true, description: 'PDF file' })
   @UseInterceptors(

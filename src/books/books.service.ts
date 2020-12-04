@@ -9,13 +9,9 @@ export class BooksService {
   constructor(@InjectModel('Book') private readonly bookModel: Model<Book>) {}
 
   async create(createBookDto: CreateBookDto, url: string): Promise<Book> {
-    try {
-      const createBook = new this.bookModel(createBookDto);
-      createBook.url = url;
-      return createBook.save();
-    } catch (e) {
-      return e.message;
-    }
+    const createBook = new this.bookModel(createBookDto);
+    createBook.url = url;
+    return createBook.save();
   }
 
   async find(limit = 20, start = 0): Promise<Book[]> {
