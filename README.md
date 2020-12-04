@@ -28,6 +28,6 @@ docker-compose up -d
 ## Documentation(Swagger)
 
 ```bash
-cd ./mongodb
-docker-compose up -d
+http://localhost:3000/api
 ```
+
